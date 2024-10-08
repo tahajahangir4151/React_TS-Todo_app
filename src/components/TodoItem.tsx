@@ -18,6 +18,7 @@ type PropsType = {
     newTitle: TodoItemType["title"]
   ) => void;
 };
+
 const TodoItem = ({
   todo,
   completeHandler,
@@ -31,6 +32,11 @@ const TodoItem = ({
     <Paper
       sx={{
         padding: "1rem",
+        transition: "all 0.3s",
+        backgroundColor: todo.isCompleted ? "#e1bee7" : "#fff",
+        ":hover": {
+          backgroundColor: "#ede7f6",
+        },
       }}
     >
       <Stack direction={"row"} alignItems={"center"}>
@@ -44,23 +50,45 @@ const TodoItem = ({
                 setEditActive(false);
               }
             }}
+            fullWidth
           />
         ) : (
-          <Typography marginRight={"auto"}>{todo.title}</Typography>
+          <Typography
+            sx={{
+              marginRight: "auto",
+              textDecoration: todo.isCompleted ? "line-through" : "none",
+              color: todo.isCompleted ? "#757575" : "#000",
+            }}
+          >
+            {todo.title}
+          </Typography>
         )}
+
         <Checkbox
           checked={todo.isCompleted}
           onChange={() => completeHandler(todo.id)}
+          sx={{
+            color: "#673ab7",
+            "&.Mui-checked": {
+              color: "#673ab7",
+            },
+          }}
         />
+
         <Button
           onClick={() => deleteHandler(todo.id)}
-          sx={{ opacity: 0.5, color: "black" }}
+          sx={{ opacity: 0.7, color: "black", ml: 1 }}
         >
           <Delete />
         </Button>
+
         <Button
           sx={{
             fontWeight: "600",
+            color: "#673ab7",
+            ":hover": {
+              backgroundColor: "#e1bee7",
+            },
           }}
           onClick={() => setEditActive((prev) => !prev)}
         >
