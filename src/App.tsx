@@ -13,7 +13,6 @@ import { getTodos, saveTodos } from "./utils/features";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItemType[]>(getTodos());
-
   const [title, setTitle] = useState<TodoItemType["title"]>("");
 
   const completeHandler = (id: TodoItemType["id"]): void => {
@@ -21,12 +20,11 @@ const App = () => {
       if (i.id === id) i.isCompleted = !i.isCompleted;
       return i;
     });
-
     setTodos(newTodos);
   };
+
   const deleteHandler = (id: TodoItemType["id"]): void => {
     const newTodos: TodoItemType[] = todos.filter((i) => i.id !== id);
-
     setTodos(newTodos);
   };
 
@@ -38,7 +36,6 @@ const App = () => {
       if (i.id === id) i.title = newTitle;
       return i;
     });
-
     setTodos(newTodos);
   };
 
@@ -57,14 +54,39 @@ const App = () => {
   }, [todos]);
 
   return (
-    <Container maxWidth="sm" sx={{ height: "100vh" }}>
-      <AppBar position="static">
+    <Container
+      maxWidth="sm"
+      sx={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f5f5f5",
+        padding: "2rem",
+      }}
+    >
+      <AppBar position="static" sx={{ mb: 4, backgroundColor: "#673ab7" }}>
         <Toolbar>
-          <Typography>Todo App</Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            Todo App
+          </Typography>
         </Toolbar>
       </AppBar>
 
-      <Stack height={"80%"} direction={"column"} spacing={"1rem"} p={"1rem"}>
+      <Stack
+        height={"60%"}
+        width="100%"
+        direction={"column"}
+        spacing={"1rem"}
+        p={"1rem"}
+        sx={{
+          overflowY: "auto",
+          borderRadius: "8px",
+          backgroundColor: "#fff",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         {todos.map((i) => (
           <TodoItem
             deleteHandler={deleteHandler}
@@ -75,18 +97,26 @@ const App = () => {
           />
         ))}
       </Stack>
+
       <TextField
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
         label={"New Task"}
+        sx={{ mt: 2 }}
         onKeyDown={(e) => {
           if (e.key === "Enter" && title !== "") submitHandler();
         }}
       />
+
       <Button
         sx={{
-          margin: "1rem 0",
+          mt: 2,
+          backgroundColor: "#673ab7",
+          color: "white",
+          ":hover": {
+            backgroundColor: "#5e35b1",
+          },
         }}
         fullWidth
         variant="contained"
